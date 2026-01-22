@@ -1,0 +1,37 @@
+# Emergency Alert System - Synthesis Script
+
+# Read all design files
+read_verilog button_debounce.v
+read_verilog emergency_alert_top.v
+read_verilog emergency_fsm.v
+read_verilog gps_parser.v
+read_verilog message_trigger.v
+read_verilog uart_rx.v
+read_verilog uart_tx.v
+
+# Check hierarchy and set top module
+hierarchy -check -top emergency_alert_top
+
+# High-level synthesis
+proc
+opt
+fsm
+opt
+memory
+opt
+
+# Technology mapping (generic gates)
+techmap
+opt
+
+# Print statistics
+stat
+
+# Generate graphical representation
+show -format dot -prefix emergency_alert_top
+
+# Write synthesized netlist
+write_verilog -noattr emergency_alert_synth.v
+
+# Write JSON for visualization
+write_json emergency_alert.json
